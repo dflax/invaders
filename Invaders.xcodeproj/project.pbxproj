@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FEBF597C1ACB159000F32688 /* StartGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEBF597B1ACB159000F32688 /* StartGameScene.swift */; };
+		FEBF597E1ACB17A700F32688 /* images in Resources */ = {isa = PBXBuildFile; fileRef = FEBF597D1ACB17A700F32688 /* images */; };
 		FECB08961AC9875100AE708E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FECB08951AC9875100AE708E /* AppDelegate.swift */; };
-		FECB08981AC9875100AE708E /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = FECB08971AC9875100AE708E /* GameScene.sks */; };
 		FECB089A1AC9875100AE708E /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FECB08991AC9875100AE708E /* GameScene.swift */; };
 		FECB089C1AC9875100AE708E /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FECB089B1AC9875100AE708E /* GameViewController.swift */; };
 		FECB089F1AC9875100AE708E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FECB089D1AC9875100AE708E /* Main.storyboard */; };
@@ -28,10 +29,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FEBF597B1ACB159000F32688 /* StartGameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartGameScene.swift; sourceTree = "<group>"; };
+		FEBF597D1ACB17A700F32688 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = "<group>"; };
 		FECB08901AC9875100AE708E /* Invaders.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Invaders.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FECB08941AC9875100AE708E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FECB08951AC9875100AE708E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		FECB08971AC9875100AE708E /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		FECB08991AC9875100AE708E /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		FECB089B1AC9875100AE708E /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		FECB089E1AC9875100AE708E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -82,12 +84,13 @@
 			isa = PBXGroup;
 			children = (
 				FECB08951AC9875100AE708E /* AppDelegate.swift */,
-				FECB08971AC9875100AE708E /* GameScene.sks */,
 				FECB08991AC9875100AE708E /* GameScene.swift */,
 				FECB089B1AC9875100AE708E /* GameViewController.swift */,
+				FEBF597B1ACB159000F32688 /* StartGameScene.swift */,
 				FECB089D1AC9875100AE708E /* Main.storyboard */,
 				FECB08A01AC9875100AE708E /* Images.xcassets */,
 				FECB08A21AC9875100AE708E /* LaunchScreen.xib */,
+				FEBF597D1ACB17A700F32688 /* images */,
 				FECB08931AC9875100AE708E /* Supporting Files */,
 			);
 			path = Invaders;
@@ -198,9 +201,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FEBF597E1ACB17A700F32688 /* images in Resources */,
 				FECB08A41AC9875100AE708E /* LaunchScreen.xib in Resources */,
 				FECB08A11AC9875100AE708E /* Images.xcassets in Resources */,
-				FECB08981AC9875100AE708E /* GameScene.sks in Resources */,
 				FECB089F1AC9875100AE708E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -220,6 +223,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FECB089A1AC9875100AE708E /* GameScene.swift in Sources */,
+				FEBF597C1ACB159000F32688 /* StartGameScene.swift in Sources */,
 				FECB089C1AC9875100AE708E /* GameViewController.swift in Sources */,
 				FECB08961AC9875100AE708E /* AppDelegate.swift in Sources */,
 			);
@@ -415,6 +419,7 @@
 				FECB08B51AC9875100AE708E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FECB08B61AC9875100AE708E /* Build configuration list for PBXNativeTarget "InvadersTests" */ = {
 			isa = XCConfigurationList;
@@ -423,6 +428,7 @@
 				FECB08B81AC9875100AE708E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
