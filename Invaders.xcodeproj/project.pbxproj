@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FE0B16A01AD2D94B003E6D48 /* Invader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE0B169F1AD2D94B003E6D48 /* Invader.swift */; };
+		FE0B16A21AD2F071003E6D48 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE0B16A11AD2F071003E6D48 /* Player.swift */; };
+		FE0B16A41AD2F1E6003E6D48 /* Bullet.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE0B16A31AD2F1E6003E6D48 /* Bullet.swift */; };
+		FE0B16A61AD2F3FA003E6D48 /* InvaderBullet.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE0B16A51AD2F3FA003E6D48 /* InvaderBullet.swift */; };
+		FE0B16A81AD2F43C003E6D48 /* PlayerBullet.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE0B16A71AD2F43C003E6D48 /* PlayerBullet.swift */; };
 		FE56D74B1ACB186A00FEA791 /* images in Sources */ = {isa = PBXBuildFile; fileRef = FEBF597D1ACB17A700F32688 /* images */; };
 		FEBF597C1ACB159000F32688 /* StartGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEBF597B1ACB159000F32688 /* StartGameScene.swift */; };
 		FEBF597E1ACB17A700F32688 /* images in Resources */ = {isa = PBXBuildFile; fileRef = FEBF597D1ACB17A700F32688 /* images */; };
@@ -30,6 +35,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FE0B169F1AD2D94B003E6D48 /* Invader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Invader.swift; sourceTree = "<group>"; };
+		FE0B16A11AD2F071003E6D48 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		FE0B16A31AD2F1E6003E6D48 /* Bullet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bullet.swift; sourceTree = "<group>"; };
+		FE0B16A51AD2F3FA003E6D48 /* InvaderBullet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvaderBullet.swift; sourceTree = "<group>"; };
+		FE0B16A71AD2F43C003E6D48 /* PlayerBullet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerBullet.swift; sourceTree = "<group>"; };
 		FEBF597B1ACB159000F32688 /* StartGameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartGameScene.swift; sourceTree = "<group>"; };
 		FEBF597D1ACB17A700F32688 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = "<group>"; };
 		FECB08901AC9875100AE708E /* Invaders.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Invaders.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -86,8 +96,13 @@
 			children = (
 				FECB08951AC9875100AE708E /* AppDelegate.swift */,
 				FECB08991AC9875100AE708E /* GameScene.swift */,
+				FE0B16A31AD2F1E6003E6D48 /* Bullet.swift */,
+				FE0B16A51AD2F3FA003E6D48 /* InvaderBullet.swift */,
+				FE0B16A71AD2F43C003E6D48 /* PlayerBullet.swift */,
+				FE0B16A11AD2F071003E6D48 /* Player.swift */,
 				FECB089B1AC9875100AE708E /* GameViewController.swift */,
 				FEBF597B1ACB159000F32688 /* StartGameScene.swift */,
+				FE0B169F1AD2D94B003E6D48 /* Invader.swift */,
 				FECB089D1AC9875100AE708E /* Main.storyboard */,
 				FECB08A01AC9875100AE708E /* Images.xcassets */,
 				FECB08A21AC9875100AE708E /* LaunchScreen.xib */,
@@ -224,10 +239,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				FE56D74B1ACB186A00FEA791 /* images in Sources */,
+				FE0B16A01AD2D94B003E6D48 /* Invader.swift in Sources */,
 				FECB089A1AC9875100AE708E /* GameScene.swift in Sources */,
+				FE0B16A61AD2F3FA003E6D48 /* InvaderBullet.swift in Sources */,
 				FEBF597C1ACB159000F32688 /* StartGameScene.swift in Sources */,
+				FE0B16A21AD2F071003E6D48 /* Player.swift in Sources */,
+				FE0B16A81AD2F43C003E6D48 /* PlayerBullet.swift in Sources */,
 				FECB089C1AC9875100AE708E /* GameViewController.swift in Sources */,
 				FECB08961AC9875100AE708E /* AppDelegate.swift in Sources */,
+				FE0B16A41AD2F1E6003E6D48 /* Bullet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
