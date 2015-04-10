@@ -12,9 +12,7 @@ import SpriteKit
 class PlayerBullet: Bullet {
 
 	override init(imageName: String, bulletSound:String?){
-println("PlayerBullet init with values imageName:\(imageName) and bulletSound:\(bulletSound)")
 		super.init(imageName: imageName, bulletSound: bulletSound)
-println("PlayerBullet init - end")
 	}
 
 	required init?(coder aDecoder: NSCoder) {

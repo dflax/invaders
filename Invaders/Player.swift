@@ -43,29 +43,23 @@ class Player: SKSpriteNode {
 
 	func fireBullet(scene: SKScene){
 
-println("fireBullet in Player")
-
 		if(!canFire){
 			return
 		} else {
 			canFire = false
-println("canFire starting")
 			let bullet = PlayerBullet(imageName: "laser",bulletSound: "laser.mp3")
 			bullet.position.x = self.position.x
 			bullet.position.y = self.position.y + self.size.height/2
 			scene.addChild(bullet)
-println("added bullet to scene")
+
 			let moveBulletAction = SKAction.moveTo(CGPoint(x:self.position.x,y:scene.size.height + bullet.size.height), duration: 1.0)
 			let removeBulletAction = SKAction.removeFromParent()
 			bullet.runAction(SKAction.sequence([moveBulletAction,removeBulletAction]))
 			let waitToEnableFire = SKAction.waitForDuration(0.5)
 
-println("end of canFire")
-
 			runAction(waitToEnableFire,completion:{
 				self.canFire = true
 			})
-println("after canFire is set true")
 		}
 	}
 
