@@ -28,6 +28,11 @@ class GameScene: SKScene {
 	}
 
 	override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+		/* Called when a touch begins */
+		for touch: AnyObject in touches {
+println("touch recognized.")
+			player.fireBullet(self)
+		}
 	}
 
 	// Update runs each SK cycle
@@ -90,13 +95,14 @@ class GameScene: SKScene {
 		let fireBullet = SKAction.runBlock(){
 			self.fireInvaderBullet()
 		}
+
 		let waitToFireInvaderBullet = SKAction.waitForDuration(1.5)
 		let invaderFire = SKAction.sequence([fireBullet,waitToFireInvaderBullet])
 		let repeatForeverAction = SKAction.repeatActionForever(invaderFire)
 		runAction(repeatForeverAction)
 	}
 
-	// Actually fire the invader bullet
+	// Fire the bullet
 	func fireInvaderBullet(){
 		let randomInvader = invadersWhoCanFire.randomElement()
 		randomInvader.fireBullet(self)
