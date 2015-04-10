@@ -25,6 +25,8 @@ class GameScene: SKScene {
 		setupInvaders()
 		setupPlayer()
 		invokeInvaderFire()
+
+println("moved into view: invokeInvaderFire()")
 	}
 
 	override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -91,6 +93,7 @@ class GameScene: SKScene {
 
 	// Invoke the invader fire bullet sequence
 	func invokeInvaderFire(){
+println("invokeInvaderFire start")
 		let fireBullet = SKAction.runBlock(){
 			self.fireInvaderBullet()
 		}
@@ -99,12 +102,17 @@ class GameScene: SKScene {
 		let invaderFire = SKAction.sequence([fireBullet,waitToFireInvaderBullet])
 		let repeatForeverAction = SKAction.repeatActionForever(invaderFire)
 		runAction(repeatForeverAction)
+
+println("invokeInvaderFire end")
 	}
 
 	// Fire the bullet
 	func fireInvaderBullet(){
+println("fireInvaderBullet start")
 		let randomInvader = invadersWhoCanFire.randomElement()
+println("the randomInvader is: \(randomInvader)")
 		randomInvader.fireBullet(self)
+println("fireInvaderBullet end")
 	}
 
 }

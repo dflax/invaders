@@ -13,6 +13,7 @@ extension Array {
 	// Extend the Array object with a random element function
 	func randomElement() -> T {
 		let index = Int(arc4random_uniform(UInt32(self.count)))
+//println("generated random number: \(index) for element \(self[index])")
 		return self[index]
 	}
 

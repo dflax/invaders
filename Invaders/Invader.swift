@@ -24,7 +24,17 @@ class Invader: SKSpriteNode {
 		super.init(coder: aDecoder)
 	}
 
+	// Fire the invader bullet
 	func fireBullet(scene: SKScene){
+println("invaderBullet: fireBullet start")
+		let bullet = InvaderBullet(imageName: "laser",bulletSound: nil)
+		bullet.position.x = self.position.x
+		bullet.position.y = self.position.y - self.size.height/2
+		scene.addChild(bullet)
+		let moveBulletAction = SKAction.moveTo(CGPoint(x:self.position.x,y: 0 - bullet.size.height), duration: 2.0)
+		let removeBulletAction = SKAction.removeFromParent()
+		bullet.runAction(SKAction.sequence([moveBulletAction,removeBulletAction]))
+println("invaderBullet: fireBullet end")
 	}
-	
+
 }
