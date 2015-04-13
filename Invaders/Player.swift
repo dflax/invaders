@@ -16,6 +16,13 @@ class Player: SKSpriteNode {
 	override init() {
 		let texture = SKTexture(imageNamed: "player1")
 		super.init(texture: texture, color: SKColor.clearColor(), size: texture.size())
+
+		self.physicsBody = SKPhysicsBody(texture: self.texture,size:self.size)
+		self.physicsBody?.dynamic = true
+		self.physicsBody?.usesPreciseCollisionDetection = false
+		self.physicsBody?.categoryBitMask = CollisionCategories.Player
+		self.physicsBody?.contactTestBitMask = CollisionCategories.InvaderBullet | CollisionCategories.Invader
+		self.physicsBody?.collisionBitMask = 0x0
 		animate()
 	}
 

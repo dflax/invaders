@@ -10,7 +10,15 @@ import SpriteKit
 
 var invaderNum = 1
 
-class GameScene: SKScene {
+struct CollisionCategories{
+	static let Invader : UInt32 = 0x1 << 0
+	static let Player: UInt32 = 0x1 << 1
+	static let InvaderBullet: UInt32 = 0x1 << 2
+	static let PlayerBullet: UInt32 = 0x1 << 3
+}
+
+class GameScene: SKScene, SKPhysicsContactDelegate {
+
 	let rowsOfInvaders = 4
 	var invaderSpeed = 2
 	let leftBounds = CGFloat(30)
@@ -20,13 +28,14 @@ class GameScene: SKScene {
 	let player:Player = Player()
 
 	override func didMoveToView(view: SKView) {
+		self.physicsWorld.gravity = CGVectorMake(0, 0)
+		self.physicsWorld.contactDelegate = self
+
 		backgroundColor = SKColor.blackColor()
 		rightBounds = self.size.width - 30
 		setupInvaders()
 		setupPlayer()
 		invokeInvaderFire()
-
-println("moved into view: invokeInvaderFire()")
 	}
 
 	override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -93,7 +102,6 @@ println("moved into view: invokeInvaderFire()")
 
 	// Invoke the invader fire bullet sequence
 	func invokeInvaderFire(){
-println("invokeInvaderFire start")
 		let fireBullet = SKAction.runBlock(){
 			self.fireInvaderBullet()
 		}
@@ -102,18 +110,44 @@ println("invokeInvaderFire start")
 		let invaderFire = SKAction.sequence([fireBullet,waitToFireInvaderBullet])
 		let repeatForeverAction = SKAction.repeatActionForever(invaderFire)
 		runAction(repeatForeverAction)
-
-println("invokeInvaderFire end")
 	}
 
 	// Fire the bullet
 	func fireInvaderBullet(){
-println("fireInvaderBullet start")
 		let randomInvader = invadersWhoCanFire.randomElement()
-println("the randomInvader is: \(randomInvader)")
 		randomInvader.fireBullet(self)
-println("fireInvaderBullet end")
 	}
+
+	// SKPhysicsContactDelegate - to handle collisions between objects
+	func didBeginContact(contact: SKPhysicsContact) {
+
+		var firstBody: SKPhysicsBody
+		var secondBody: SKPhysicsBody
+		if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+			firstBody = contact.bodyA
+			secondBody = contact.bodyB
+		} else {
+			firstBody = contact.bodyB
+			secondBody = contact.bodyA
+		}
+
+		if ((firstBody.categoryBitMask & CollisionCategories.Invader != 0) &&
+			(secondBody.categoryBitMask & CollisionCategories.PlayerBullet != 0)){
+				NSLog("Invader and Player Bullet Conatact")
+		}
+
+		if ((firstBody.categoryBitMask & CollisionCategories.Player != 0) &&
+			(secondBody.categoryBitMask & CollisionCategories.InvaderBullet != 0)) {
+				NSLog("Player and Invader Bullet Contact")
+		}
+
+		if ((firstBody.categoryBitMask & CollisionCategories.Invader != 0) &&
+			(secondBody.categoryBitMask & CollisionCategories.Player != 0)) {
+				NSLog("Invader and Player Collision Contact")
+				
+		}
+	}
+
 
 }
 
