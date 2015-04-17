@@ -7,14 +7,16 @@
 //
 
 import SpriteKit
+import CoreMotion
 
 var invaderNum = 1
 
 struct CollisionCategories{
-	static let Invader : UInt32 = 0x1 << 0
-	static let Player: UInt32 = 0x1 << 1
+	static let Invader:       UInt32 = 0x1 << 0
+	static let Player:        UInt32 = 0x1 << 1
 	static let InvaderBullet: UInt32 = 0x1 << 2
-	static let PlayerBullet: UInt32 = 0x1 << 3
+	static let PlayerBullet:  UInt32 = 0x1 << 3
+	static let EdgeBody:      UInt32 = 0x1 << 4
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
@@ -26,16 +28,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	var invadersWhoCanFire:[Invader] = [Invader]()
 
 	let player:Player = Player()
+	let maxLevels = 3
+
+	// For core motion - to move player with the accelerometer
+	let motionManager: CMMotionManager = CMMotionManager()
+	var accelerationX: CGFloat = 0.0
 
 	override func didMoveToView(view: SKView) {
-		self.physicsWorld.gravity = CGVectorMake(0, 0)
+		self.physicsWorld.gravity=CGVectorMake(0, 0)
 		self.physicsWorld.contactDelegate = self
+		self.physicsBody = SKPhysicsBody(edgeLoopFromRect: frame)
+		self.physicsBody?.categoryBitMask = CollisionCategories.EdgeBody
 
 		backgroundColor = SKColor.blackColor()
 		rightBounds = self.size.width - 30
 		setupInvaders()
 		setupPlayer()
 		invokeInvaderFire()
+		setupAccelerometer()
 	}
 
 	override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -112,10 +122,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		runAction(repeatForeverAction)
 	}
 
-	// Fire the bullet
-	func fireInvaderBullet(){
-		let randomInvader = invadersWhoCanFire.randomElement()
-		randomInvader.fireBullet(self)
+	// Fire an invader bullet
+	func fireInvaderBullet() {
+		if (invadersWhoCanFire.isEmpty) {
+			invaderNum += 1
+			levelComplete()
+		} else {
+			let randomInvader = invadersWhoCanFire.randomElement()
+			randomInvader.fireBullet(self)
+		}
 	}
 
 	// SKPhysicsContactDelegate - to handle collisions between objects
@@ -139,15 +154,90 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		if ((firstBody.categoryBitMask & CollisionCategories.Player != 0) &&
 			(secondBody.categoryBitMask & CollisionCategories.InvaderBullet != 0)) {
 				NSLog("Player and Invader Bullet Contact")
+				player.die()
 		}
 
 		if ((firstBody.categoryBitMask & CollisionCategories.Invader != 0) &&
 			(secondBody.categoryBitMask & CollisionCategories.Player != 0)) {
 				NSLog("Invader and Player Collision Contact")
-				
+				player.kill()
+		}
+
+		if ((firstBody.categoryBitMask & CollisionCategories.Invader != 0) &&
+			(secondBody.categoryBitMask & CollisionCategories.PlayerBullet != 0)){
+				if (contact.bodyA.node?.parent == nil || contact.bodyB.node?.parent == nil) {
+					return
+				}
+
+				let invadersPerRow = invaderNum * 2 + 1
+				let theInvader = firstBody.node? as Invader
+				let newInvaderRow = theInvader.invaderRow - 1
+				let newInvaderColumn = theInvader.invaderColumn
+				if (newInvaderRow >= 1) {
+					self.enumerateChildNodesWithName("invader") { node, stop in
+						let invader = node as Invader
+						if invader.invaderRow == newInvaderRow && invader.invaderColumn == newInvaderColumn {
+							self.invadersWhoCanFire.append(invader)
+							stop.memory = true
+						}
+					}
+				}
+
+				let invaderIndex = findIndex(invadersWhoCanFire, valueToFind: firstBody.node? as Invader)
+				if (invaderIndex != nil) {
+					invadersWhoCanFire.removeAtIndex(invaderIndex!)
+				}
+				theInvader.removeFromParent()
+				secondBody.node?.removeFromParent()
 		}
 	}
 
+	// findIndex method to assist in locating an object in an array - I believe we can now do this with indexOfObject()
+	func findIndex<T: Equatable>(array: [T], valueToFind: T) -> Int? {
+		for (index, value) in enumerate(array) {
+			if value == valueToFind {
+				return index
+			}
+		}
+		return nil
+	}
+
+	// MARK: - Level Methods
+	func levelComplete() {
+		if (invaderNum <= maxLevels) {
+			let levelCompleteScene = LevelCompleteScene(size: size)
+			levelCompleteScene.scaleMode = scaleMode
+			let transitionType = SKTransition.flipHorizontalWithDuration(0.5)
+			view?.presentScene(levelCompleteScene,transition: transitionType)
+		} else {
+			invaderNum = 1
+			newGame()
+		}
+	}
+
+	// New Game method
+	func newGame() {
+		let gameOverScene = StartGameScene(size: size)
+		gameOverScene.scaleMode = scaleMode
+		let transitionType = SKTransition.flipHorizontalWithDuration(0.5)
+		view?.presentScene(gameOverScene,transition: transitionType)
+	}
+
+	// MARK: - Core Motion methods to manage accelerometer
+	func setupAccelerometer() {
+		motionManager.accelerometerUpdateInterval = 0.2
+		motionManager.startAccelerometerUpdatesToQueue(NSOperationQueue.currentQueue(), withHandler: {
+			(accelerometerData: CMAccelerometerData!, error: NSError!) in
+			let acceleration = accelerometerData.acceleration
+			self.accelerationX = CGFloat(acceleration.x)
+		})
+	}
+
+	// Not part of core motion - part of SpriteKit
+	// Use the accelerometer data to move the player via SpriteKit movement
+	override func didSimulatePhysics() {
+		player.physicsBody?.velocity = CGVector(dx: accelerationX * 600, dy: 0)
+	}
 
 }
 

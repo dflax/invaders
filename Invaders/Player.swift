@@ -12,6 +12,17 @@ import SpriteKit
 class Player: SKSpriteNode {
 
 	private var canFire = true
+	private var invincible = false
+
+	private var lives:Int = 3 {
+		didSet {
+			if(lives < 0){
+				kill()
+			} else {
+				respawn()
+			}
+		}
+	}
 
 	override init() {
 		let texture = SKTexture(imageNamed: "player1")
@@ -22,7 +33,9 @@ class Player: SKSpriteNode {
 		self.physicsBody?.usesPreciseCollisionDetection = false
 		self.physicsBody?.categoryBitMask = CollisionCategories.Player
 		self.physicsBody?.contactTestBitMask = CollisionCategories.InvaderBullet | CollisionCategories.Invader
-		self.physicsBody?.collisionBitMask = 0x0
+		self.physicsBody?.collisionBitMask = CollisionCategories.EdgeBody
+		self.physicsBody?.allowsRotation = false
+
 		animate()
 	}
 
@@ -39,13 +52,35 @@ class Player: SKSpriteNode {
 		self.runAction(playerAnimation)
 	}
 
-	func die (){
+	func die () {
+		if (invincible == false) {
+			lives -= 1
+		}
 	}
 
-	func kill(){
+	func kill() {
+		invaderNum = 1
+
+		let gameOverScene = StartGameScene(size: self.scene!.size)
+		gameOverScene.scaleMode = self.scene!.scaleMode
+
+		let transitionType = SKTransition.flipHorizontalWithDuration(0.5)
+		self.scene!.view!.presentScene(gameOverScene,transition: transitionType)
 	}
 
-	func respawn(){
+	func respawn() {
+
+		// Set the player to invincible for a little bit after a respawn
+		invincible = true
+
+		let fadeOutAction = SKAction.fadeOutWithDuration(0.4)
+		let fadeInAction = SKAction.fadeInWithDuration(0.4)
+		let fadeOutIn = SKAction.sequence([fadeOutAction,fadeInAction])
+		let fadeOutInAction = SKAction.repeatAction(fadeOutIn, count: 5)
+		let setInvicibleFalse = SKAction.runBlock(){
+			self.invincible = false
+		}
+		runAction(SKAction.sequence([fadeOutInAction,setInvicibleFalse]))
 	}
 
 	func fireBullet(scene: SKScene){
