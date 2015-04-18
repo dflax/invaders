@@ -26,7 +26,7 @@ class LevelCompleteScene: SKScene {
 		addChild(starField)
 	}
 
-	override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+	override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
 
 		for touch: AnyObject in touches {
 			let touchLocation = touch.locationInNode(self)

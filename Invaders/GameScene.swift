@@ -55,7 +55,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		addChild(starField)
 	}
 
-	override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+	override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+
 		/* Called when a touch begins */
 		for touch: AnyObject in touches {
 			player.fireBullet(self)
@@ -99,7 +100,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	func moveInvaders(){
 		var changeDirection = false
 		enumerateChildNodesWithName("invader") { node, stop in
-			let invader = node as SKSpriteNode
+			let invader = node as! SKSpriteNode
 			let invaderHalfWidth = invader.size.width/2
 			invader.position.x -= CGFloat(self.invaderSpeed)
 			if(invader.position.x > self.rightBounds - invaderHalfWidth || invader.position.x < self.leftBounds + invaderHalfWidth){
@@ -110,7 +111,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		if(changeDirection == true){
 			self.invaderSpeed *= -1
 			self.enumerateChildNodesWithName("invader") { node, stop in
-				let invader = node as SKSpriteNode
+				let invader = node as! SKSpriteNode
 				invader.position.y -= CGFloat(46)
 			}
 			changeDirection = false
@@ -177,12 +178,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 				}
 
 				let invadersPerRow = invaderNum * 2 + 1
-				let theInvader = firstBody.node? as Invader
+				let theInvader = firstBody.node as! Invader
 				let newInvaderRow = theInvader.invaderRow - 1
 				let newInvaderColumn = theInvader.invaderColumn
 				if (newInvaderRow >= 1) {
 					self.enumerateChildNodesWithName("invader") { node, stop in
-						let invader = node as Invader
+						let invader = node as! Invader
 						if invader.invaderRow == newInvaderRow && invader.invaderColumn == newInvaderColumn {
 							self.invadersWhoCanFire.append(invader)
 							stop.memory = true
@@ -190,7 +191,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 					}
 				}
 
-				let invaderIndex = findIndex(invadersWhoCanFire, valueToFind: firstBody.node? as Invader)
+				let invaderIndex = findIndex(invadersWhoCanFire, valueToFind: firstBody.node as! Invader)
 				if (invaderIndex != nil) {
 					invadersWhoCanFire.removeAtIndex(invaderIndex!)
 				}

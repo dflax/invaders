@@ -20,12 +20,13 @@ class StartGameScene: SKScene {
 		// Set up the background star field - using SpriteKit Particle (rain)
 		backgroundColor = SKColor.blackColor()
 		let starField = SKEmitterNode(fileNamed: "StarField")
-		starField.position = CGPointMake(size.width/2,size.height/2)
+		starField.position = CGPointMake(size.width / 2,size.height)
+
 		starField.zPosition = -1000
 		addChild(starField)
 	}
 
-	override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+	override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
 		for touch: AnyObject in touches {
 			let touchLocation = touch.locationInNode(self)
 			let touchedNode = self.nodeAtPoint(touchLocation)
