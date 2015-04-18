@@ -21,7 +21,8 @@ class LevelCompleteScene: SKScene {
 		// Set up the background star field - using SpriteKit Particle (rain)
 		backgroundColor = SKColor.blackColor()
 		let starField = SKEmitterNode(fileNamed: "StarField")
-		starField.position = CGPointMake(size.width/2,size.height/2)
+		starField.position = CGPointMake(size.width / 2,size.height)
+		
 		starField.zPosition = -1000
 		addChild(starField)
 	}
