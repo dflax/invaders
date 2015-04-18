@@ -37,6 +37,7 @@
 		FECB08A11AC9875100AE708E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FECB08A01AC9875100AE708E /* Images.xcassets */; };
 		FECB08A41AC9875100AE708E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = FECB08A21AC9875100AE708E /* LaunchScreen.xib */; };
 		FECB08B01AC9875100AE708E /* InvadersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FECB08AF1AC9875100AE708E /* InvadersTests.swift */; };
+		FEF6E4881AE287BD00F9A52D /* PulsatingText.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEF6E4871AE287BD00F9A52D /* PulsatingText.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +85,7 @@
 		FECB08A91AC9875100AE708E /* InvadersTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InvadersTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FECB08AE1AC9875100AE708E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FECB08AF1AC9875100AE708E /* InvadersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvadersTests.swift; sourceTree = "<group>"; };
+		FEF6E4871AE287BD00F9A52D /* PulsatingText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PulsatingText.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +150,8 @@
 				FECB08951AC9875100AE708E /* AppDelegate.swift */,
 				FECB08991AC9875100AE708E /* GameScene.swift */,
 				FE8D118C1AE17CB300992858 /* LevelCompleteScene.swift */,
+				FEBF597B1ACB159000F32688 /* StartGameScene.swift */,
+				FEF6E4871AE287BD00F9A52D /* PulsatingText.swift */,
 				FEBBE16E1AD7243600EBC7C0 /* Utilities.swift */,
 				FE0B16A31AD2F1E6003E6D48 /* Bullet.swift */,
 				FE0B16A51AD2F3FA003E6D48 /* InvaderBullet.swift */,
@@ -156,7 +160,6 @@
 				FE5F82D91AE2753100D16D64 /* StarField.sks */,
 				FE5F82DA1AE2753100D16D64 /* spark.png */,
 				FECB089B1AC9875100AE708E /* GameViewController.swift */,
-				FEBF597B1ACB159000F32688 /* StartGameScene.swift */,
 				FE0B169F1AD2D94B003E6D48 /* Invader.swift */,
 				FECB089D1AC9875100AE708E /* Main.storyboard */,
 				FECB08A01AC9875100AE708E /* Images.xcassets */,
@@ -317,6 +320,7 @@
 				FE0B16A81AD2F43C003E6D48 /* PlayerBullet.swift in Sources */,
 				FECB089C1AC9875100AE708E /* GameViewController.swift in Sources */,
 				FECB08961AC9875100AE708E /* AppDelegate.swift in Sources */,
+				FEF6E4881AE287BD00F9A52D /* PulsatingText.swift in Sources */,
 				FE0B16A41AD2F1E6003E6D48 /* Bullet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

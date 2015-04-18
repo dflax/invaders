@@ -25,6 +25,14 @@ class LevelCompleteScene: SKScene {
 		
 		starField.zPosition = -1000
 		addChild(starField)
+
+		// Pulsating text
+		self.backgroundColor = SKColor.blackColor()
+		let invaderText = PulsatingText(fontNamed: "ChalkDuster")
+		invaderText.setTextFontSizeAndPulsate("LEVEL COMPLETE", theFontSize: 50)
+		invaderText.position = CGPointMake(size.width/2,size.height/2 + 200)
+		addChild(invaderText)
+
 	}
 
 	override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
