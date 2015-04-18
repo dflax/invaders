@@ -46,6 +46,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		setupPlayer()
 		invokeInvaderFire()
 		setupAccelerometer()
+
+		// Set up the background star field - using SpriteKit Particle (rain)
+		backgroundColor = SKColor.blackColor()
+		let starField = SKEmitterNode(fileNamed: "StarField")
+		starField.position = CGPointMake(size.width/2,size.height/2)
+		starField.zPosition = -1000
+		addChild(starField)
 	}
 
 	override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
