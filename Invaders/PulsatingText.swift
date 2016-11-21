@@ -11,12 +11,12 @@ import SpriteKit
 
 class PulsatingText : SKLabelNode {
 
-	func setTextFontSizeAndPulsate(theText: String, theFontSize: CGFloat) {
+	func setTextFontSizeAndPulsate(_ theText: String, theFontSize: CGFloat) {
 		self.text = theText
 		self.fontSize = theFontSize
-		let scaleSequence = SKAction.sequence([SKAction.scaleTo(2, duration: 1),SKAction.scaleTo(1.0, duration:1)])
-		let scaleForever = SKAction.repeatActionForever(scaleSequence)
-		self.runAction(scaleForever)
+		let scaleSequence = SKAction.sequence([SKAction.scale(to: 2, duration: 1),SKAction.scale(to: 1.0, duration:1)])
+		let scaleForever = SKAction.repeatForever(scaleSequence)
+		self.run(scaleForever)
 	}
 
 

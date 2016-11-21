@@ -34,13 +34,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	let motionManager: CMMotionManager = CMMotionManager()
 	var accelerationX: CGFloat = 0.0
 
-	override func didMoveToView(view: SKView) {
-		self.physicsWorld.gravity=CGVectorMake(0, 0)
+	override func didMove(to view: SKView) {
+		self.physicsWorld.gravity=CGVector(dx: 0, dy: 0)
 		self.physicsWorld.contactDelegate = self
-		self.physicsBody = SKPhysicsBody(edgeLoopFromRect: frame)
+		self.physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
 		self.physicsBody?.categoryBitMask = CollisionCategories.EdgeBody
 
-		backgroundColor = SKColor.blackColor()
+		backgroundColor = SKColor.black
 		rightBounds = self.size.width - 30
 		setupInvaders()
 		setupPlayer()
@@ -48,25 +48,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		setupAccelerometer()
 
 		// Set up the background star field - using SpriteKit Particle (rain)
-		backgroundColor = SKColor.blackColor()
+		backgroundColor = SKColor.black
 		let starField = SKEmitterNode(fileNamed: "StarField")
-		starField.position = CGPointMake(size.width / 2,size.height)
+		starField?.position = CGPoint(x: size.width / 2,y: size.height)
 		
-		starField.zPosition = -1000
-		addChild(starField)
+		starField?.zPosition = -1000
+		addChild(starField!)
 	}
 
-	override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+	func touchesBegan(_ touches: Set<NSObject>, with event: UIEvent) {
 
 		/* Called when a touch begins */
-		for touch: AnyObject in touches {
+		for touch: Any in touches {
 			player.fireBullet(self)
 		}
 	}
 
 	// Update runs each SK cycle
 	// handles moving the invaders around the screen
-	override func update(currentTime: CFTimeInterval) {
+	override func update(_ currentTime: TimeInterval) {
 		moveInvaders()
 	}
 
@@ -74,9 +74,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		var invaderRow = 0;
 		var invaderColumn = 0;
 		let numberOfInvaders = invaderNum * 2 + 1
-		for var i = 1; i <= rowsOfInvaders; i++ {
+
+		for i in (0..<numberOfInvaders) {
 			invaderRow = i
-			for var j = 1; j <= numberOfInvaders; j++ {
+			for j in (0..<numberOfInvaders) {
 				invaderColumn = j
 				let tempInvader:Invader = Invader()
 				let invaderHalfWidth:CGFloat = tempInvader.size.width/2
@@ -93,14 +94,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	}
 
 	func setupPlayer(){
-		player.position = CGPoint(x:CGRectGetMidX(self.frame), y:player.size.height/2 + 10)
+		player.position = CGPoint(x:self.frame.midX, y:player.size.height/2 + 10)
 		addChild(player)
 	}
 
 	// Move the invaders around the screen
 	func moveInvaders(){
 		var changeDirection = false
-		enumerateChildNodesWithName("invader") { node, stop in
+		enumerateChildNodes(withName: "invader") { node, stop in
 			let invader = node as! SKSpriteNode
 			let invaderHalfWidth = invader.size.width/2
 			invader.position.x -= CGFloat(self.invaderSpeed)
@@ -111,7 +112,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
 		if(changeDirection == true){
 			self.invaderSpeed *= -1
-			self.enumerateChildNodesWithName("invader") { node, stop in
+			self.enumerateChildNodes(withName: "invader") { node, stop in
 				let invader = node as! SKSpriteNode
 				invader.position.y -= CGFloat(46)
 			}
@@ -121,14 +122,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
 	// Invoke the invader fire bullet sequence
 	func invokeInvaderFire(){
-		let fireBullet = SKAction.runBlock(){
+		let fireBullet = SKAction.run(){
 			self.fireInvaderBullet()
 		}
 
-		let waitToFireInvaderBullet = SKAction.waitForDuration(1.5)
+		let waitToFireInvaderBullet = SKAction.wait(forDuration: 1.5)
 		let invaderFire = SKAction.sequence([fireBullet,waitToFireInvaderBullet])
-		let repeatForeverAction = SKAction.repeatActionForever(invaderFire)
-		runAction(repeatForeverAction)
+		let repeatForeverAction = SKAction.repeatForever(invaderFire)
+		run(repeatForeverAction)
 	}
 
 	// Fire an invader bullet
@@ -138,12 +139,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 			levelComplete()
 		} else {
 			let randomInvader = invadersWhoCanFire.randomElement()
-			randomInvader.fireBullet(self)
+			(randomInvader as AnyObject).fireBullet(self)
 		}
 	}
 
 	// SKPhysicsContactDelegate - to handle collisions between objects
-	func didBeginContact(contact: SKPhysicsContact) {
+	func didBegin(_ contact: SKPhysicsContact) {
 
 		var firstBody: SKPhysicsBody
 		var secondBody: SKPhysicsBody
@@ -183,18 +184,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 				let newInvaderRow = theInvader.invaderRow - 1
 				let newInvaderColumn = theInvader.invaderColumn
 				if (newInvaderRow >= 1) {
-					self.enumerateChildNodesWithName("invader") { node, stop in
+					self.enumerateChildNodes(withName: "invader") { node, stop in
 						let invader = node as! Invader
 						if invader.invaderRow == newInvaderRow && invader.invaderColumn == newInvaderColumn {
 							self.invadersWhoCanFire.append(invader)
-							stop.memory = true
+							stop.pointee = true
 						}
 					}
 				}
 
 				let invaderIndex = findIndex(invadersWhoCanFire, valueToFind: firstBody.node as! Invader)
 				if (invaderIndex != nil) {
-					invadersWhoCanFire.removeAtIndex(invaderIndex!)
+					invadersWhoCanFire.remove(at: invaderIndex!)
 				}
 				theInvader.removeFromParent()
 				secondBody.node?.removeFromParent()
@@ -202,8 +203,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	}
 
 	// findIndex method to assist in locating an object in an array - I believe we can now do this with indexOfObject()
-	func findIndex<T: Equatable>(array: [T], valueToFind: T) -> Int? {
-		for (index, value) in enumerate(array) {
+	func findIndex<T: Equatable>(_ array: [T], valueToFind: T) -> Int? {
+		for (index, value) in array.enumerated() {
 			if value == valueToFind {
 				return index
 			}
@@ -216,7 +217,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		if (invaderNum <= maxLevels) {
 			let levelCompleteScene = LevelCompleteScene(size: size)
 			levelCompleteScene.scaleMode = scaleMode
-			let transitionType = SKTransition.flipHorizontalWithDuration(0.5)
+			let transitionType = SKTransition.flipHorizontal(withDuration: 0.5)
 			view?.presentScene(levelCompleteScene,transition: transitionType)
 		} else {
 			invaderNum = 1
@@ -228,18 +229,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	func newGame() {
 		let gameOverScene = StartGameScene(size: size)
 		gameOverScene.scaleMode = scaleMode
-		let transitionType = SKTransition.flipHorizontalWithDuration(0.5)
+		let transitionType = SKTransition.flipHorizontal(withDuration: 0.5)
 		view?.presentScene(gameOverScene,transition: transitionType)
 	}
 
 	// MARK: - Core Motion methods to manage accelerometer
 	func setupAccelerometer() {
 		motionManager.accelerometerUpdateInterval = 0.2
-		motionManager.startAccelerometerUpdatesToQueue(NSOperationQueue.currentQueue(), withHandler: {
+		motionManager.startAccelerometerUpdates(to: OperationQueue.current!, withHandler: {
 			(accelerometerData: CMAccelerometerData!, error: NSError!) in
 			let acceleration = accelerometerData.acceleration
 			self.accelerationX = CGFloat(acceleration.x)
-		})
+		} as! CMAccelerometerHandler)
 	}
 
 	// Not part of core motion - part of SpriteKit

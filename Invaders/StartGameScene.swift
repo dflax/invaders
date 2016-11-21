@@ -11,36 +11,36 @@ import SpriteKit
 
 class StartGameScene: SKScene {
 
-	override func didMoveToView(view: SKView) {
+	override func didMove(to view: SKView) {
 		let startGameButton = SKSpriteNode(imageNamed: "newgamebtn.png")
-		startGameButton.position = CGPointMake(size.width/2,size.height/2 - 100)
+		startGameButton.position = CGPoint(x: size.width/2,y: size.height/2 - 100)
 		startGameButton.name = "startgame"
 		addChild(startGameButton)
 
 		// Set up the background star field - using SpriteKit Particle (rain)
-		backgroundColor = SKColor.blackColor()
+		backgroundColor = SKColor.black
 		let starField = SKEmitterNode(fileNamed: "StarField")
-		starField.position = CGPointMake(size.width / 2,size.height)
+		starField?.position = CGPoint(x: size.width / 2,y: size.height)
 
-		starField.zPosition = -1000
-		addChild(starField)
+		starField?.zPosition = -1000
+		addChild(starField!)
 
 		// Pulsating text on the screen
 		let invaderText = PulsatingText(fontNamed: "ChalkDuster")
 		invaderText.setTextFontSizeAndPulsate("INVADERZ", theFontSize: 50)
-		invaderText.position = CGPointMake(size.width/2,size.height/2 + 200)
+		invaderText.position = CGPoint(x: size.width/2,y: size.height/2 + 200)
 		addChild(invaderText)
 
 	}
 
-	override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+	func touchesBegan(_ touches: Set<NSObject>, with event: UIEvent) {
 		for touch: AnyObject in touches {
-			let touchLocation = touch.locationInNode(self)
-			let touchedNode = self.nodeAtPoint(touchLocation)
+			let touchLocation = touch.location(in: self)
+			let touchedNode = self.atPoint(touchLocation)
 			if(touchedNode.name == "startgame"){
 				let gameOverScene = GameScene(size: size)
 				gameOverScene.scaleMode = scaleMode
-				let transitionType = SKTransition.flipHorizontalWithDuration(1.0)
+				let transitionType = SKTransition.flipHorizontal(withDuration: 1.0)
 				view?.presentScene(gameOverScene,transition: transitionType)
 			}
 		}

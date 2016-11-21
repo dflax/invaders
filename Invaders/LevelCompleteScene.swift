@@ -11,39 +11,39 @@ import SpriteKit
 
 class LevelCompleteScene: SKScene {
 
-	override func didMoveToView(view: SKView) {
-		self.backgroundColor = SKColor.blackColor()
+	override func didMove(to view: SKView) {
+		self.backgroundColor = SKColor.black
 		let startGameButton = SKSpriteNode(imageNamed: "nextlevelbtn")
-		startGameButton.position = CGPointMake(size.width/2,size.height/2 - 100)
+		startGameButton.position = CGPoint(x: size.width/2,y: size.height/2 - 100)
 		startGameButton.name = "nextlevel"
 		addChild(startGameButton)
 
 		// Set up the background star field - using SpriteKit Particle (rain)
-		backgroundColor = SKColor.blackColor()
+		backgroundColor = SKColor.black
 		let starField = SKEmitterNode(fileNamed: "StarField")
-		starField.position = CGPointMake(size.width / 2,size.height)
+		starField?.position = CGPoint(x: size.width / 2,y: size.height)
 		
-		starField.zPosition = -1000
-		addChild(starField)
+		starField?.zPosition = -1000
+		addChild(starField!)
 
 		// Pulsating text
-		self.backgroundColor = SKColor.blackColor()
+		self.backgroundColor = SKColor.black
 		let invaderText = PulsatingText(fontNamed: "ChalkDuster")
 		invaderText.setTextFontSizeAndPulsate("LEVEL COMPLETE", theFontSize: 50)
-		invaderText.position = CGPointMake(size.width/2,size.height/2 + 200)
+		invaderText.position = CGPoint(x: size.width/2,y: size.height/2 + 200)
 		addChild(invaderText)
 
 	}
 
-	override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+	func touchesBegan(_ touches: Set<NSObject>, with event: UIEvent) {
 
 		for touch: AnyObject in touches {
-			let touchLocation = touch.locationInNode(self)
-			let touchedNode = self.nodeAtPoint(touchLocation)
+			let touchLocation = touch.location(in: self)
+			let touchedNode = self.atPoint(touchLocation)
 			if (touchedNode.name == "nextlevel") {
 				let gameOverScene = GameScene(size: size)
 				gameOverScene.scaleMode = scaleMode
-				let transitionType = SKTransition.flipHorizontalWithDuration(0.5)
+				let transitionType = SKTransition.flipHorizontal(withDuration: 0.5)
 				view?.presentScene(gameOverScene,transition: transitionType)
 			}
 		}

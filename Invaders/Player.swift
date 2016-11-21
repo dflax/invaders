@@ -11,10 +11,10 @@ import SpriteKit
 
 class Player: SKSpriteNode {
 
-	private var canFire = true
-	private var invincible = false
+	fileprivate var canFire = true
+	fileprivate var invincible = false
 
-	private var lives:Int = 3 {
+	fileprivate var lives:Int = 3 {
 		didSet {
 			if(lives < 0){
 				kill()
@@ -26,10 +26,10 @@ class Player: SKSpriteNode {
 
 	init() {
 		let texture = SKTexture(imageNamed: "player1")
-		super.init(texture: texture, color: SKColor.clearColor(), size: texture.size())
+		super.init(texture: texture, color: SKColor.clear, size: texture.size())
 
-		self.physicsBody = SKPhysicsBody(texture: self.texture,size:self.size)
-		self.physicsBody?.dynamic = true
+		self.physicsBody = SKPhysicsBody(texture: self.texture!,size:self.size)
+		self.physicsBody?.isDynamic = true
 		self.physicsBody?.usesPreciseCollisionDetection = false
 		self.physicsBody?.categoryBitMask = CollisionCategories.Player
 		self.physicsBody?.contactTestBitMask = CollisionCategories.InvaderBullet | CollisionCategories.Invader
@@ -43,13 +43,13 @@ class Player: SKSpriteNode {
 		super.init(coder: aDecoder)
 	}
 
-	private func animate(){
+	fileprivate func animate(){
 		var playerTextures:[SKTexture] = []
 		for i in 1...2 {
 			playerTextures.append(SKTexture(imageNamed: "player\(i)"))
 		}
-		let playerAnimation = SKAction.repeatActionForever( SKAction.animateWithTextures(playerTextures, timePerFrame: 0.1))
-		self.runAction(playerAnimation)
+		let playerAnimation = SKAction.repeatForever( SKAction.animate(with: playerTextures, timePerFrame: 0.1))
+		self.run(playerAnimation)
 	}
 
 	func die () {
@@ -64,7 +64,7 @@ class Player: SKSpriteNode {
 		let gameOverScene = StartGameScene(size: self.scene!.size)
 		gameOverScene.scaleMode = self.scene!.scaleMode
 
-		let transitionType = SKTransition.flipHorizontalWithDuration(0.5)
+		let transitionType = SKTransition.flipHorizontal(withDuration: 0.5)
 		self.scene!.view!.presentScene(gameOverScene,transition: transitionType)
 	}
 
@@ -73,17 +73,17 @@ class Player: SKSpriteNode {
 		// Set the player to invincible for a little bit after a respawn
 		invincible = true
 
-		let fadeOutAction = SKAction.fadeOutWithDuration(0.4)
-		let fadeInAction = SKAction.fadeInWithDuration(0.4)
+		let fadeOutAction = SKAction.fadeOut(withDuration: 0.4)
+		let fadeInAction = SKAction.fadeIn(withDuration: 0.4)
 		let fadeOutIn = SKAction.sequence([fadeOutAction,fadeInAction])
-		let fadeOutInAction = SKAction.repeatAction(fadeOutIn, count: 5)
-		let setInvicibleFalse = SKAction.runBlock(){
+		let fadeOutInAction = SKAction.repeat(fadeOutIn, count: 5)
+		let setInvicibleFalse = SKAction.run(){
 			self.invincible = false
 		}
-		runAction(SKAction.sequence([fadeOutInAction,setInvicibleFalse]))
+		run(SKAction.sequence([fadeOutInAction,setInvicibleFalse]))
 	}
 
-	func fireBullet(scene: SKScene){
+	func fireBullet(_ scene: SKScene){
 
 		if(!canFire){
 			return
@@ -94,12 +94,12 @@ class Player: SKSpriteNode {
 			bullet.position.y = self.position.y + self.size.height/2
 			scene.addChild(bullet)
 
-			let moveBulletAction = SKAction.moveTo(CGPoint(x:self.position.x,y:scene.size.height + bullet.size.height), duration: 1.0)
+			let moveBulletAction = SKAction.move(to: CGPoint(x:self.position.x,y:scene.size.height + bullet.size.height), duration: 1.0)
 			let removeBulletAction = SKAction.removeFromParent()
-			bullet.runAction(SKAction.sequence([moveBulletAction,removeBulletAction]))
-			let waitToEnableFire = SKAction.waitForDuration(0.5)
+			bullet.run(SKAction.sequence([moveBulletAction,removeBulletAction]))
+			let waitToEnableFire = SKAction.wait(forDuration: 0.5)
 
-			runAction(waitToEnableFire,completion:{
+			run(waitToEnableFire,completion:{
 				self.canFire = true
 			})
 		}
